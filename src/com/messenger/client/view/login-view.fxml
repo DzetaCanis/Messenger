@@ -5,45 +5,93 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.client.controller.LoginController">
    <children>
-      <Label alignment="CENTER" layoutX="94.0" layoutY="105.0" text="IP-адреса сервера:" textFill="#0a4378">
+      <Label alignment="CENTER" layoutX="94.0" layoutY="105.0" text="IP-адреса сервера:">
          <font>
-            <Font name="Arial" size="24.0" />
+            <Font name="Arial Bold" size="24.0" />
          </font>
+         <textFill>
+            <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.062745101749897" green="0.09019608050584793" blue="0.4470588266849518" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.4685914224914062">
+                     <color>
+                        <Color red="0.45042285323143005" green="0.047200001776218414" blue="0.5899999737739563" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.6705882549285889" green="0.05098039284348488" blue="0.05098039284348488" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
-      <Label layoutX="93.0" layoutY="183.0" text="User name:" textFill="#0a4378">
+      <Label layoutX="93.0" layoutY="183.0" text="User name:">
          <font>
-            <Font name="Arial" size="24.0" />
+            <Font name="Arial Bold" size="24.0" />
          </font>
+         <textFill>
+            <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.062745101749897" green="0.09019608050584793" blue="0.4470588266849518" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.4685914224914062">
+                     <color>
+                        <Color red="0.45042285323143005" green="0.047200001776218414" blue="0.5899999737739563" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.6705882549285889" green="0.05098039284348488" blue="0.05098039284348488" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
-      <TextField fx:id="ipField" layoutX="312.0" layoutY="87.0" prefHeight="45.0" prefWidth="195.0">
+      <TextField fx:id="ipField" layoutX="321.0" layoutY="97.0" prefHeight="43.0" prefWidth="190.0" style="-fx-background-radius: 5;">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
       </TextField>
-      <TextField fx:id="usernameField" layoutX="219.0" layoutY="167.0" prefHeight="45.0" prefWidth="288.0">
+      <TextField fx:id="usernameField" layoutX="226.0" layoutY="175.0" prefHeight="43.0" prefWidth="280.0" style="-fx-background-radius: 5;">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
       </TextField>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="94.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Скасувати" textAlignment="CENTER" textFill="#c60a1d" AnchorPane.bottomAnchor="86.0" AnchorPane.topAnchor="269.0">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleCancelButton" style="-fx-background-radius: 5;" text="Скасувати" textAlignment="CENTER" textFill="#ab0d0d" AnchorPane.bottomAnchor="86.0" AnchorPane.topAnchor="269.0">
          <font>
-            <Font name="Arial" size="24.0" />
+            <Font name="Arial Bold" size="24.0" />
          </font>
          <effect>
-            <Blend mode="BLUE" opacity="0.0" />
+            <Blend mode="HARD_LIGHT" />
          </effect>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="389.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="45.0" prefWidth="118.0" text="Далі" textAlignment="CENTER" textFill="#0a4378" AnchorPane.bottomAnchor="86.0" AnchorPane.topAnchor="269.0">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="389.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="45.0" prefWidth="118.0" style="-fx-background-radius: 5;" text="Далі" textAlignment="CENTER" textFill="#101772" AnchorPane.bottomAnchor="86.0" AnchorPane.topAnchor="269.0">
          <font>
-            <Font name="Arial" size="24.0" />
+            <Font name="Arial Bold" size="24.0" />
          </font>
          <effect>
-            <Blend mode="BLUE" opacity="0.0" />
+            <Blend mode="HARD_LIGHT" />
          </effect>
       </Button>
    </children>
+   <effect>
+      <Blend mode="SOFT_LIGHT" />
+   </effect>
 </AnchorPane>

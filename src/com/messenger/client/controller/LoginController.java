@@ -1,5 +1,6 @@
 package com.messenger.client.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,48 +13,52 @@ import javafx.stage.Stage;
 
 public class LoginController {
 
-    @FXML
-    private TextField ipField;
+    @FXML private TextField ipField;
+    @FXML private TextField usernameField;
 
     @FXML
-    private TextField usernameField;
+    public void initialize() {
+        // === ГРАДІЄНТ НА ВІКНО ВХОДУ ===
+        Platform.runLater(() -> {
+            if (ipField.getScene() != null) {
+                ipField.getScene().getRoot().setStyle("-fx-background-color: linear-gradient(to bottom right, #e0f7fa, #ffffff);");
+            }
+        });
+    }
 
     @FXML
     private void handleLoginButton(ActionEvent event) {
-        // Очищаємо текст від зайвих пробілів по краях
         String ip = ipField.getText().trim();
         String username = usernameField.getText().trim();
 
-        // 1. Перевірка: чи не порожні поля?
         if (ip.isEmpty() || username.isEmpty()) {
             showAlert("Помилка вводу", "IP-адреса та ім'я користувача не можуть бути порожніми.");
-            return; // Зупиняємо виконання методу
+            return;
         }
 
-        // 2. Перевірка формату IP-адреси (дозволяємо localhost або стандартний формат 0.0.0.0)
-        // Використовуємо регулярний вираз для перевірки
+        // Обмеження на 20 символів
+        if (username.length() > 20) {
+            showAlert("Помилка вводу", "Ім'я користувача не може перевищувати 20 символів.");
+            return;
+        }
+
         String ipRegex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         if (!ip.equals("localhost") && !ip.matches(ipRegex)) {
             showAlert("Помилка формату", "Введіть коректну IP-адресу (наприклад, 127.0.0.1) або localhost.");
             return;
         }
 
-        // 3. Якщо все добре — переходимо до вікна чату
         try {
-            // Завантажуємо файл розмітки чату
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/messenger/client/view/chat-view.fxml"));
             Parent chatRoot = loader.load();
 
-            // Отримуємо доступ до контролера чату, щоб передати йому введені дані
             ChatController chatController = loader.getController();
             chatController.initData(ip, username);
 
-            // Отримуємо поточне вікно (Stage), з якого була натиснута кнопка
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Змінюємо сцену на чат (розмір 600x400)
-            stage.setScene(new Scene(chatRoot, 1000, 800));
-            stage.setTitle("ICQ Клієнт - Чат (" + username + ")"); // Додаємо ім'я в заголовок вікна
+            // Розмір вікна чату при відкритті
+            stage.setScene(new Scene(chatRoot, 1200, 800));
+            stage.setTitle("ICQ Клієнт - Чат (" + username + ") | Символів: 0/1000"); 
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,11 +68,9 @@ public class LoginController {
 
     @FXML
     private void handleCancelButton(ActionEvent event) {
-        // Закриваємо програму
         System.exit(0);
     }
 
-    // Допоміжний метод для зручного створення вікон з помилками
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

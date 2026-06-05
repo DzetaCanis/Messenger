@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.server.controller.ServerController">
    <children>
-      <TextArea fx:id="serverLogsArea" editable="false" layoutX="12.0" layoutY="13.0" prefHeight="380.0" prefWidth="570.0" wrapText="true">
+      <TextArea fx:id="serverLogsArea" editable="false" layoutX="12.0" layoutY="13.0" prefHeight="323.0" prefWidth="570.0" wrapText="true">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -19,7 +19,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </TextArea>
-      <ListView fx:id="activeSessionsList" layoutX="14.0" layoutY="416.0" prefHeight="170.0" prefWidth="570.0">
+      <ListView fx:id="activeSessionsList" layoutX="14.0" layoutY="356.0" prefHeight="230.0" prefWidth="570.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>

@@ -6,6 +6,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,11 +29,35 @@ public class ServerController {
 
     @FXML
     public void initialize() {
-        serverLogsArea.setWrapText(true);
-        serverLogsArea.setStyle("-fx-font-size: 16px;");
-        activeSessionsList.setStyle("-fx-font-size: 16px;");
+        // === ІДЕАЛЬНА ВЕРСТКА СЕРВЕРА (50/50) ===
+        Platform.runLater(() -> {
+            if (serverLogsArea.getScene() != null) {
+                AnchorPane root = (AnchorPane) serverLogsArea.getScene().getRoot();
+                root.setStyle("-fx-background-color: linear-gradient(to bottom right, #e0f7fa, #ffffff);");
+                
+                Stage stage = (Stage) root.getScene().getWindow();
+                if (stage != null) stage.setResizable(false); // Блокуємо зміну розміру вікна
 
-        // Обробка подвійного кліку для КІКУ користувача (Пункт 4)
+                // Створюємо програмний контейнер, який ідеально поділить вікно навпіл
+                VBox mainContainer = new VBox(15, serverLogsArea, activeSessionsList);
+                VBox.setVgrow(serverLogsArea, Priority.ALWAYS); // 50% висоти
+                VBox.setVgrow(activeSessionsList, Priority.ALWAYS); // 50% висоти
+
+                root.getChildren().clear();
+                root.getChildren().add(mainContainer);
+                
+                // Робимо рівні відступи від країв вікна
+                AnchorPane.setTopAnchor(mainContainer, 15.0);
+                AnchorPane.setBottomAnchor(mainContainer, 15.0);
+                AnchorPane.setLeftAnchor(mainContainer, 15.0);
+                AnchorPane.setRightAnchor(mainContainer, 15.0);
+            }
+        });
+
+        serverLogsArea.setWrapText(true);
+        serverLogsArea.setStyle("-fx-font-size: 16px; -fx-control-inner-background: white; -fx-border-color: #b0bec5; -fx-border-radius: 5;");
+        activeSessionsList.setStyle("-fx-font-size: 16px; -fx-control-inner-background: white; -fx-border-color: #b0bec5; -fx-border-radius: 5;");
+
         activeSessionsList.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 String selected = activeSessionsList.getSelectionModel().getSelectedItem();
@@ -116,7 +144,6 @@ public class ServerController {
         Platform.runLater(() -> {
             activeSessionsList.getItems().clear();
             activeSessionsList.getItems().add("Всього онлайн: " + activeNames.size());
-            activeSessionsList.getItems().add("------------------------");
             for (String name : activeNames) activeSessionsList.getItems().add("👤 " + name);
         });
 
@@ -163,9 +190,33 @@ public class ServerController {
                         Message msg = XmlParser.deserialize(xmlMessage);
                         
                         if (clientName.equals("Невідомий") && msg.getSender() != null) {
-                            clientName = msg.getSender();
+                            String proposedName = msg.getSender();
+                            boolean nameExists = false;
+                            
+                            for (ClientHandler c : connectedClients) {
+                                if (c != this && proposedName.equals(c.clientName)) {
+                                    nameExists = true; break;
+                                }
+                            }
+                            
+                            if (nameExists) {
+                                Message errorMsg = new Message("SYSTEM", proposedName, "NAME_TAKEN", getCurrentTime(), "", "");
+                                sendMessage(XmlParser.serialize(errorMsg));
+                                Platform.runLater(() -> logEvent("Відхилено: ім'я " + proposedName + " вже зайняте."));
+                                Thread.sleep(500); 
+                                return; 
+                            }
+                            
+                            clientName = proposedName;
                             updateActiveSessions(); 
                         }
+
+                        if (msg.getFileName() != null && !msg.getFileName().isEmpty()) {
+                            Platform.runLater(() -> logEvent("📎 Користувач " + clientName + " відправив файл: " + msg.getFileName()));
+                        } else {
+                            Platform.runLater(() -> logEvent("Отримано повідомлення від " + clientName));
+                        }
+                        
                         routeMessage(msg, xmlMessage, this);
                     }
                 }
@@ -173,7 +224,9 @@ public class ServerController {
             } finally {
                 connectedClients.remove(this); 
                 updateActiveSessions(); 
-                Platform.runLater(() -> logEvent("🔴 " + clientName + " відключився."));
+                if (!clientName.equals("Невідомий")) {
+                    Platform.runLater(() -> logEvent("🔴 " + clientName + " відключився."));
+                }
                 try { socket.close(); } catch (Exception e) {}
             }
         }
