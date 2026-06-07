@@ -6,11 +6,9 @@ public class Message {
     private String text;
     private String time;
     
-    // Нові поля для передачі файлів
     private String fileName;
     private String fileData; 
 
-    // Оновлений конструктор
     public Message(String sender, String receiver, String text, String time, String fileName, String fileData) {
         this.sender = sender;
         this.receiver = receiver;

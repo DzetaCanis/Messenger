@@ -4,45 +4,51 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.client.controller.ChatController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to bottom right, #e0f7fa, #ffffff);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.client.controller.ChatController">
    <children>
       
-      <ListView fx:id="contactsList" prefWidth="370.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+      <VBox prefWidth="350.0" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <TextField fx:id="searchField" promptText="🔍 Пошук контактів..." style="-fx-font-size: 16px; -fx-background-radius: 5;" />
+            <Button mnemonicParsing="false" onAction="#handleEditName" prefWidth="350.0" style="-fx-background-color: #e0f7fa; -fx-border-color: #00acc1; -fx-border-radius: 5; -fx-background-radius: 5;" text="✏ Змінити ім'я">
+               <font><Font name="Arial Bold" size="14.0" /></font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#handleEditAvatar" prefWidth="350.0" style="-fx-background-color: #e8f5e9; -fx-border-color: #00897b; -fx-border-radius: 5; -fx-background-radius: 5;" text="🖼 Змінити аватарку">
+               <font><Font name="Arial Bold" size="14.0" /></font>
+            </Button>
+            <ListView fx:id="contactsList" style="-fx-font-size: 16px; -fx-border-color: #b0bec5; -fx-border-radius: 5; -fx-background-radius: 5;" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
 
-      <ScrollPane fx:id="chatScrollPane" AnchorPane.bottomAnchor="340.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" style="-fx-background: white; -fx-background-color: white; -fx-border-color: #b0bec5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="380.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <content>
-            <VBox fx:id="chatBox" />
+            <VBox fx:id="chatBox" spacing="15.0" style="-fx-background-color: white; -fx-padding: 15;" />
          </content>
       </ScrollPane>
 
-      <TextArea fx:id="messageInput" prefHeight="260.0" wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="15.0">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
+      <TextArea fx:id="messageInput" prefHeight="170.0" style="-fx-border-color: #b0bec5; -fx-border-radius: 5;" wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="380.0" AnchorPane.rightAnchor="15.0">
+         <font><Font name="Arial" size="18.0" /></font>
       </TextArea>
 
-      <Button mnemonicParsing="false" onAction="#handleSendFile" prefHeight="35.0" prefWidth="90.0" style="-fx-background-radius: 5;" text="Файл" textFill="#136b0b" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="165.0">
-         <font>
-            <Font name="Arial Bold" size="18.0" />
-         </font>
-         <effect>
-            <Blend mode="HARD_LIGHT" />
-         </effect>
-      </Button>
-
-      <Button mnemonicParsing="false" onAction="#handleSendMessage" prefHeight="35.0" prefWidth="140.0" style="-fx-background-radius: 5;" text="Відправити" textFill="#0c2a83" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
-         <font>
-            <Font name="Arial Bold" size="18.0" />
-         </font>
-         <effect>
-            <Blend mode="HARD_LIGHT" />
-         </effect>
-      </Button>
+      <HBox alignment="CENTER_RIGHT" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleSendFile" prefHeight="35.0" prefWidth="90.0" style="-fx-background-radius: 5;" text="Файл" textFill="#136b0b">
+               <font><Font name="Arial Bold" size="18.0" /></font>
+               <effect><Blend mode="HARD_LIGHT" /></effect>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#handleSendMessage" prefHeight="35.0" prefWidth="140.0" style="-fx-background-radius: 5;" text="Відправити" textFill="#0c2a83">
+               <font><Font name="Arial Bold" size="18.0" /></font>
+               <effect><Blend mode="HARD_LIGHT" /></effect>
+            </Button>
+         </children>
+      </HBox>
 
    </children>
 </AnchorPane>

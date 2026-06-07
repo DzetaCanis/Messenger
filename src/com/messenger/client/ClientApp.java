@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class ClientApp extends Application {
 
-	@Override
+    @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/messenger/client/view/login-view.fxml"));
         
@@ -16,10 +16,10 @@ public class ClientApp extends Application {
         primaryStage.setScene(new Scene(root)); 
         primaryStage.setResizable(false); 
         
-        // Він жорстко завершує роботу програми і розриває всі сокети при закритті вікна
         primaryStage.setOnCloseRequest(event -> System.exit(0));
         
         primaryStage.show();
+        primaryStage.centerOnScreen();
     }
 
     public static void main(String[] args) {

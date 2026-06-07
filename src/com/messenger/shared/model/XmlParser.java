@@ -3,7 +3,6 @@ package com.messenger.shared.model;
 public class XmlParser {
 
     public static String serialize(Message message) {
-        // Додаємо порожні рядки, якщо файлу немає, щоб уникнути помилок null
         String fName = (message.getFileName() != null) ? message.getFileName() : "";
         String fData = (message.getFileData() != null) ? message.getFileData() : "";
 
@@ -32,7 +31,6 @@ public class XmlParser {
         }
     }
 
-    // Допоміжний метод для зручного витягування даних між тегами
     private static String extractTag(String xml, String tag) {
         String startTag = "<" + tag + ">";
         String endTag = "</" + tag + ">";
